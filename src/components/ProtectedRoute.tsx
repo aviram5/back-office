@@ -1,15 +1,38 @@
-// const checkAuth = (): Promise<boolean> => {
-//   const user = false;
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve(user);
-//     }, 500);
-//   });
-// };
+import { useLocation, Navigate, Outlet } from "react-router-dom";
+// import type { To } from "react-router-dom";
 
-// const ProtectedRoute = () => {
+export const enum Role {
+  ADMIN = 1, //Read, Update and Delete
+  EDIDOR = 2, // Read and Update
+  USER = 3, // Read Only
+}
 
-//     return()
-// }
+const someUser = (): { auth: boolean; role: Role } => {
+  return {
+    auth: true,
+    role: Role.EDIDOR,
+  };
+};
 
-// export default ProtectedRoute
+interface ProtectedRouteProps {
+  //   condition: boolean;
+  //   fallbackRoute: To;
+  roles: Role[];
+}
+
+const ProtectedRoute = ({ roles }: ProtectedRouteProps) => {
+  const location = useLocation();
+  const { auth, role } = someUser();
+
+  return auth ? (
+    role === Role.ADMIN || roles.includes(role) ? (
+      <Outlet />
+    ) : (
+      <Navigate to={"/unauthorized"} state={{ from: location }} replace />
+    )
+  ) : (
+    <Navigate to={"/login"} state={{ from: location }} replace />
+  );
+};
+
+export default ProtectedRoute;

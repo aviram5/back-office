@@ -1,32 +1,33 @@
-import { About, Contact, Home, MainLayout } from "./pages";
+import { About, Contact, Home, MainLayout, Login, Unauthorized } from "./pages";
 import {
   createBrowserRouter,
   RouterProvider,
   LoaderFunction,
   redirect,
 } from "react-router-dom";
+import ProtectedRoute, { Role } from "./components/ProtectedRoute";
 
-const checkAuth = (): Promise<boolean> => {
-  const user = false;
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(user);
-    }, 500);
-  });
-};
+// const checkAuth = (): Promise<boolean> => {
+//   const user = false;
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(user);
+//     }, 500);
+//   });
+// };
 
-const AuthLoader: LoaderFunction = async () => {
-  try {
-    const user = await checkAuth();
-    if (!user) {
-      return redirect("/");
-    }
-    return null;
-  } catch (e) {
-    console.log(e);
-    return redirect("/");
-  }
-};
+// const AuthLoader: LoaderFunction = async () => {
+//   try {
+//     const user = await checkAuth();
+//     if (!user) {
+//       return redirect("/");
+//     }
+//     return null;
+//   } catch (e) {
+//     console.log(e);
+//     return redirect("/");
+//   }
+// };
 
 const routes = createBrowserRouter([
   {
@@ -40,12 +41,31 @@ const routes = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: <ProtectedRoute roles={[Role.EDIDOR]} />,
+        children: [
+          {
+            index: true,
+            element: <About />,
+          },
+        ],
       },
       {
         path: "/contact",
-        element: <Contact />,
-        loader: AuthLoader,
+        element: <ProtectedRoute roles={[Role.ADMIN]} />,
+        children: [
+          {
+            index: true,
+            element: <Contact />,
+          },
+        ],
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/unauthorized",
+        element: <Unauthorized />,
       },
     ],
   },
