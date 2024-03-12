@@ -1,60 +1,32 @@
 import { About, Contact, Home, MainLayout, Login, Unauthorized } from "./pages";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  LoaderFunction,
-  redirect,
-} from "react-router-dom";
-import ProtectedRoute, { Role } from "./components/ProtectedRoute";
-
-// const checkAuth = (): Promise<boolean> => {
-//   const user = false;
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve(user);
-//     }, 500);
-//   });
-// };
-
-// const AuthLoader: LoaderFunction = async () => {
-//   try {
-//     const user = await checkAuth();
-//     if (!user) {
-//       return redirect("/");
-//     }
-//     return null;
-//   } catch (e) {
-//     console.log(e);
-//     return redirect("/");
-//   }
-// };
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Typography, Box } from "@mui/material";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-
     children: [
       {
         index: true,
         element: <Home />,
       },
       {
-        path: "/about",
-        element: <ProtectedRoute roles={[Role.EDIDOR]} />,
+        element: <ProtectedRoute />,
+        errorElement: (
+          <Box>
+            <Typography>Error</Typography>
+          </Box>
+        ),
         children: [
+          //all routes that need to be protected under root
           {
-            index: true,
+            path: "/about",
             element: <About />,
           },
-        ],
-      },
-      {
-        path: "/contact",
-        element: <ProtectedRoute roles={[Role.ADMIN]} />,
-        children: [
           {
-            index: true,
+            path: "/contact",
             element: <Contact />,
           },
         ],

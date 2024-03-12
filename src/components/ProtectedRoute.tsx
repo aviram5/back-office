@@ -1,31 +1,64 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { Typography, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useLocation, Navigate, Outlet, json } from "react-router-dom";
 // import type { To } from "react-router-dom";
 
-export const enum Role {
-  ADMIN = 1, //Read, Update and Delete
-  EDIDOR = 2, // Read and Update
-  USER = 3, // Read Only
+interface User {
+  user: boolean;
+  isAuth: boolean;
 }
 
-const someUser = (): { auth: boolean; role: Role } => {
-  return {
-    auth: true,
-    role: Role.EDIDOR,
-  };
+const someUser = (to: string): Promise<User> => {
+  return new Promise((resolve, reject) => {
+    console.log(to);
+    setTimeout(() => {
+      if (false) {
+        resolve({
+          user: true,
+          isAuth: true,
+        });
+      } else {
+        reject("some error");
+      }
+    }, 500);
+  });
 };
 
-interface ProtectedRouteProps {
-  //   condition: boolean;
-  //   fallbackRoute: To;
-  roles: Role[];
-}
+// interface ProtectedRouteProps {
+//   //   condition: boolean;
+//   //   fallbackRoute: To;
+//   roles: Role[];
+// }
 
-const ProtectedRoute = ({ roles }: ProtectedRouteProps) => {
+const ProtectedRoute = () => {
+  const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const location = useLocation();
-  const { auth, role } = someUser();
+  //some api request to know if page is accessible
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const data = await someUser(location.pathname);
+        setUser(data);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(false);
+        // throw new Response();
+      }
+    })();
+  }, [location.pathname]);
 
-  return auth ? (
-    role === Role.ADMIN || roles.includes(role) ? (
+  if (isLoading) {
+    return (
+      <Box>
+        <Typography>Loading...</Typography>
+      </Box>
+    );
+  }
+
+  return user?.user ? (
+    user.isAuth ? (
       <Outlet />
     ) : (
       <Navigate to={"/unauthorized"} state={{ from: location }} replace />
