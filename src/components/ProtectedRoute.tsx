@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useLocation, Navigate, Outlet, json } from "react-router-dom";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { useLocation, Navigate, Outlet, useNavigate } from "react-router-dom";
 // import type { To } from "react-router-dom";
 
 interface User {
@@ -12,7 +12,7 @@ const someUser = (to: string): Promise<User> => {
   return new Promise((resolve, reject) => {
     console.log(to);
     setTimeout(() => {
-      if (false) {
+      if (true) {
         resolve({
           user: true,
           isAuth: true,
@@ -24,16 +24,15 @@ const someUser = (to: string): Promise<User> => {
   });
 };
 
-// interface ProtectedRouteProps {
-//   //   condition: boolean;
-//   //   fallbackRoute: To;
-//   roles: Role[];
-// }
+interface ProtectedRouteProps {}
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({
+  children,
+}: PropsWithChildren<ProtectedRouteProps>) => {
   const [user, setUser] = useState<User>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location = useLocation();
+
   //some api request to know if page is accessible
   useEffect(() => {
     (async () => {
@@ -59,7 +58,7 @@ const ProtectedRoute = () => {
 
   return user?.user ? (
     user.isAuth ? (
-      <Outlet />
+      children
     ) : (
       <Navigate to={"/unauthorized"} state={{ from: location }} replace />
     )
