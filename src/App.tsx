@@ -42,11 +42,7 @@ const routes = createBrowserRouter([
         async lazy() {
           const { About } = await import("./pages");
           return {
-            element: (
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            ),
+            element: <ProtectedRoute children={<About />} />,
           };
         },
         // children: [
