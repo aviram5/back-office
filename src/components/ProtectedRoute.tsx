@@ -14,7 +14,7 @@ const someUser = (to: string): Promise<User> => {
     setTimeout(() => {
       if (true) {
         resolve({
-          user: false,
+          user: true,
           isAuth: true,
         });
       } else {

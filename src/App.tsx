@@ -1,26 +1,6 @@
-// import { About, Contact, Home, MainLayout, Login, Unauthorized } from "./pages";
-// import { About, Home, MainLayout, Login, Unauthorized } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense } from "react";
-
-// import { Typography, Box } from "@mui/material";
-
-// const AboutFree = () => {
-//   return (
-//     <Box>
-//       <Typography>About Free</Typography>
-//     </Box>
-//   );
-// };
-
-// const AboutNotFree = () => {
-//   return (
-//     <Box>
-//       <Typography>About Not Free</Typography>
-//     </Box>
-//   );
-// };
 
 const routes = createBrowserRouter([
   {
@@ -45,34 +25,15 @@ const routes = createBrowserRouter([
             element: <ProtectedRoute children={<About />} />,
           };
         },
-        // children: [
-        //   {
-        //     path: "free",
-        //     element: <AboutFree />,
-        //   },
-        //   {
-        //     path: "notFree",
-        //     element: <ProtectedRoute />,
-        //   },
-        // ],
       },
       {
         path: "/contact",
         async lazy() {
           const { Contact } = await import("./pages");
           return {
-            element: (
-              <ProtectedRoute>
-                <Contact />
-              </ProtectedRoute>
-            ),
+            element: <ProtectedRoute children={<Contact />} />,
           };
         },
-        // element: (
-        //   <ProtectedRoute>
-        //     <Contact />
-        //   </ProtectedRoute>
-        // ),
       },
 
       {
