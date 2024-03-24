@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+// import { NavLink, Outlet } from "react-router-dom";
 import {
   styled,
   Theme,
@@ -12,7 +13,6 @@ import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,16 +24,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import Logo from "../assets/logo.svg";
 
+const HEADER_HEIGHT = 75;
 const DRAWER_WIDTH = 240;
-const HEADER_HEIGHT = 100;
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
 
 const openedMixin = (theme: Theme): CSSObject => ({
-  background: "red",
   width: DRAWER_WIDTH,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -43,29 +39,46 @@ const openedMixin = (theme: Theme): CSSObject => ({
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  background: "red",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(7)} )`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} )`,
   },
 });
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  background: "transparent",
+const DrawerHeader = styled("div")(({ theme }) => ({
+  position: "sticky",
+  top: 0,
+  left: 0,
+  height: HEADER_HEIGHT,
+  zIndex: theme.zIndex.drawer,
+  backgroundColor: "inherit",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  // marginBottom: 5,
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme, open }) => ({
+  backgroundColor: theme.palette.primary.main,
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    marginLeft: DRAWER_WIDTH,
+    marginLeft: DRAWER_WIDTH - 1,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -74,24 +87,11 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  height: HEADER_HEIGHT,
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  zIndex: 1000,
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -101,6 +101,18 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
+// const NavItem = styled(NavLink)(({ theme }) => ({
+//   textDecoration: "none",
+//   color: "red",
+// }));
+
+const SiteHeader = () => {
+  return (
+    <Box>
+      <img src={Logo} width="24" height="100%" />
+    </Box>
+  );
+};
 
 const MainLayout = () => {
   const theme = useTheme();
@@ -156,27 +168,44 @@ const MainLayout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
-          <Box>
-            <NavLink to="/">home</NavLink>
-            <NavLink to="/about">about</NavLink>
-            <NavLink to="/contact">contact</NavLink>
-          </Box>
+          {!isDrawerOpen && <SiteHeader />}
+          {/* <Box
+            sx={{
+              position: "absolute",
+              right: 10,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-around",
+
+              width: 200,
+            }}
+          >
+            <ToggleThemeModeButton toggleThemeMode={toggleThemeMode} />
+            <AccountAvatar />
+          </Box> */}
         </Toolbar>
+        {/* <Box>
+            <NavItem to="/">home</NavItem>
+            <NavItem to="/about">about</NavItem>
+            <NavItem to="/contact">contact</NavItem>
+          </Box> */}
       </AppBar>
       <Drawer
+        onClose={handleDrawerClose}
+        anchor="left"
         variant={isSm ? "temporary" : "permanent"}
         open={isDrawerOpen}
         PaperProps={{
           sx: {
-            backgroundColor: "black",
+            backgroundColor: "secondary.main",
             borderRight: "0px",
           },
         }}
+        sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       >
         <DrawerHeader>
+          {isDrawerOpen && <SiteHeader />}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -185,7 +214,7 @@ const MainLayout = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        {isDrawerOpen && <Divider />}
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -247,7 +276,7 @@ const MainLayout = () => {
         sx={{
           marginTop: `${HEADER_HEIGHT}px`,
           flexGrow: 1,
-          background: "green",
+          // background: "green",
           p: 3,
           //  border: 2,
           // borderColor: "green"
