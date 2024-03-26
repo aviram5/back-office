@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { useLocation, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 // import type { To } from "react-router-dom";
 
 interface User {
@@ -58,7 +58,7 @@ const ProtectedRoute = ({
 
   return user?.user ? (
     user.isAuth ? (
-      children
+      children || <Outlet />
     ) : (
       <Navigate to={"/unauthorized"} state={{ from: location }} replace />
     )
