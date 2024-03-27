@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { fetchUser } from "../slices/userSlice";
 import { Box, Typography } from "@mui/material";
 import { redirect } from "react-router-dom";
+import { href } from "../config/routes";
 
 const AppLoading = () => {
   const dispatch = useAppDispatch();
@@ -26,3 +27,5 @@ const AppLoading = () => {
     </Box>
   );
 };
+
+export default AppLoading;

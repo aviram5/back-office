@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import type { RouteObject } from "react-router-dom";
+import { typesafeBrowserRouter } from "react-router-typesafe";
 
 const AuthRoutes: RouteObject[] = [
   {
@@ -11,10 +12,10 @@ const AuthRoutes: RouteObject[] = [
     },
   },
   {
-    path: "/unauthorized",
+    path: "/signup",
     async lazy() {
-      const { Unauthorized } = await import("../pages");
-      return { Component: Unauthorized };
+      const { Signup } = await import("../pages");
+      return { Component: Signup };
     },
   },
 ];
@@ -45,9 +46,36 @@ const AppRoutes: RouteObject[] = [
       };
     },
   },
+  {
+    path: "/unauthorized",
+    async lazy() {
+      const { Unauthorized } = await import("../pages");
+      return { Component: Unauthorized };
+    },
+  },
 ];
 
-const routes = createBrowserRouter([
+// const routes = createBrowserRouter([
+// export const { router, href } = typesafeBrowserRouter([
+//   {
+//     path: "/",
+//     async lazy() {
+//       const { AppLoading } = await import("../pages");
+//       return { Component: AppLoading };
+//     },
+//   },
+//   {
+//     path: "/app",
+//     children: AppRoutes,
+//   },
+//   {
+//     path: "/auth",
+//     children: AuthRoutes,
+//   },
+// ]);
+
+// // const routes = createBrowserRouter([
+export const { router, href } = typesafeBrowserRouter([
   {
     path: "/",
     async lazy() {
@@ -72,7 +100,7 @@ const routes = createBrowserRouter([
         },
       },
       {
-        path: "/contact",
+        path: "/testafa",
         async lazy() {
           const { Contact } = await import("../pages");
           return {
@@ -99,4 +127,4 @@ const routes = createBrowserRouter([
   },
 ]);
 
-export default routes;
+// export default routes;

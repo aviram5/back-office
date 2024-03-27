@@ -25,6 +25,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Logo from "../assets/logo.svg";
+import { href } from "../config/routes";
 
 const HEADER_HEIGHT = 75;
 const DRAWER_WIDTH = 240;
@@ -217,7 +218,8 @@ const MainLayout = () => {
         {isDrawerOpen && <Divider />}
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <NavLink to={index % 2 === 0 ? "/" : "/contact"}>
+            <NavLink to={href({ path: "/test" })}>
+              {/* <NavLink to={index % 2 === 0 ? "/" : "/contact"}> */}
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
