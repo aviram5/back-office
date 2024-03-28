@@ -218,7 +218,7 @@ const MainLayout = () => {
         {isDrawerOpen && <Divider />}
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <NavLink to={href({ path: "/test" })}>
+            <NavLink to={href({ path: "/" })}>
               {/* <NavLink to={index % 2 === 0 ? "/" : "/contact"}> */}
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
