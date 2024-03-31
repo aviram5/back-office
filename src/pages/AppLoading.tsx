@@ -11,26 +11,26 @@ const AppLoading = () => {
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
 
-  useEffect(() => {
-    dispatch(fetchUser);
-  }, [dispatch]);
-
   // useEffect(() => {
-  //   console.log("hi");
-  //   redirect("/app");
-  // });
+  //   dispatch(fetchUser);
+  // }, [dispatch]);
+
   useEffect(() => {
-    if (!userState.isLogged) {
-      redirect("/auth");
-    } else {
-      redirect("/app");
-    }
-  }, [userState]);
+    console.log("hi");
+    redirect("/app");
+  });
+  // useEffect(() => {
+  //   if (!userState.isLogged) {
+  //     redirect("/auth");
+  //   } else {
+  //     redirect("app");
+  //   }
+  // }, [userState]);
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", height: "100%", backgroundColor: "red" }}>
       <Typography>App Loading...</Typography>
-      {/* {userState.isLogged && <Navigate to={"/app"} />} */}
+      {/* {userState.isLogged && <Navigate to={href({ path: "contact" })} />} */}
     </Box>
   );
 };

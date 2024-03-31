@@ -2,6 +2,7 @@ import { Typography, Box } from "@mui/material";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../hooks/useRedux";
+import { href } from "../config/routes";
 
 // import type { To } from "react-router-dom";
 
@@ -10,7 +11,7 @@ interface ProtectedRouteProps {}
 const ProtectedRoute = ({
   children,
 }: PropsWithChildren<ProtectedRouteProps>) => {
-  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const isLogged = useAppSelector((state) => state.user.isLogged) && false;
   const isAuth = useAppSelector((state) => state.user.isAuth);
   const location = useLocation();
 
@@ -41,10 +42,14 @@ const ProtectedRoute = ({
     isAuth ? (
       children || <Outlet />
     ) : (
-      <Navigate to={"/unauthorized"} state={{ from: location }} replace />
+      <Navigate
+        to={href({ path: "unauthorized" })}
+        state={{ from: location }}
+        replace
+      />
     )
   ) : (
-    <Navigate to={"/login"} state={{ from: location }} replace />
+    <Navigate to={href({ path: "login" })} state={{ from: location }} replace />
   );
 };
 
