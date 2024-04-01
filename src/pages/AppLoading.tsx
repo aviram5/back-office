@@ -5,10 +5,11 @@ import { Box, Typography } from "@mui/material";
 // import { redirect } from "react-router-dom";
 import { redirect } from "react-router-typesafe";
 import { href } from "../config/routes";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 const AppLoading = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const userState = useAppSelector((state) => state.user);
 
   // useEffect(() => {
@@ -16,21 +17,25 @@ const AppLoading = () => {
   // }, [dispatch]);
 
   useEffect(() => {
-    console.log("hi");
-    redirect("/app");
-  });
-  // useEffect(() => {
-  //   if (!userState.isLogged) {
-  //     redirect("/auth");
-  //   } else {
-  //     redirect("app");
-  //   }
-  // }, [userState]);
+    if (!userState.isLogged) {
+      console.log("app");
+      // navigate(href({ path: "home" }));
+      navigate(href({ path: "/app" }));
+      // navigate(href({ path: "about" }));
+
+      // navigate("/app");
+    } else {
+      console.log("auth");
+      // redirect("/auth/login");
+      navigate(href({ path: "/auth/login" }));
+      // navigate("/auth/login");
+    }
+  }, [userState, navigate]);
 
   return (
-    <Box sx={{ width: "100%", height: "100%", backgroundColor: "red" }}>
+    <Box sx={{ width: "100vw", height: "100vh", backgroundColor: "red" }}>
       <Typography>App Loading...</Typography>
-      {/* {userState.isLogged && <Navigate to={href({ path: "contact" })} />} */}
+      {/* <Outlet /> */}
     </Box>
   );
 };

@@ -68,34 +68,28 @@ import { Home, MainLayout } from "../pages";
 // ] satisfies RouteObject[];
 // element: <Navigate to="/auth/login" replace={true} />,
 
-const rootLoader: LoaderFunction = async () => {
-  const user = false;
-  if (!user) {
-    redirect("/auth/login");
-  }
-  return null;
-};
-
 export const { router, href } = typesafeBrowserRouter([
   {
     path: "/",
-    loader: rootLoader,
-    // element: <AppLoading />,
     children: [
       {
-        path: "app",
+        index: true,
+        element: <AppLoading />,
+      },
+      {
+        path: "/app",
         element: <MainLayout />,
         children: [
           {
             index: true,
-            element: <Home />,
-            // async lazy() {
-            //   const { Home } = await import("../pages");
-            //   return { Component: Home };
-            // },
+            // element: <Home />,
+            async lazy() {
+              const { Home } = await import("../pages");
+              return { Component: Home };
+            },
           },
           {
-            path: "about",
+            path: "/app/about",
             async lazy() {
               const { About } = await import("../pages");
               return {
@@ -104,7 +98,7 @@ export const { router, href } = typesafeBrowserRouter([
             },
           },
           {
-            path: "contact",
+            path: "/app/contact",
             async lazy() {
               const { Contact } = await import("../pages");
               return {
@@ -113,7 +107,7 @@ export const { router, href } = typesafeBrowserRouter([
             },
           },
           {
-            path: "unauthorized",
+            path: "/app/unauthorized",
             async lazy() {
               const { Unauthorized } = await import("../pages");
               return { Component: Unauthorized };
@@ -122,21 +116,17 @@ export const { router, href } = typesafeBrowserRouter([
         ],
       },
       {
-        path: "auth",
+        path: "/auth",
         children: [
-          // {
-          //   index: true,
-          //   element: <Navigate to="/auth/login" replace={true} />,
-          // },
           {
-            path: "login",
+            path: "/auth/login",
             async lazy() {
               const { Login } = await import("../pages");
               return { Component: Login };
             },
           },
           {
-            path: "signup",
+            path: "/auth/signup",
             async lazy() {
               const { Signup } = await import("../pages");
               return { Component: Signup };
