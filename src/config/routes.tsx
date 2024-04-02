@@ -23,7 +23,8 @@ const AuthRoutes = [
 
 const AppRoutes = [
   {
-    index: true,
+    // index: true,
+    path: "/app",
     async lazy() {
       const { Home } = await import("../pages");
       return { Component: Home };
@@ -56,6 +57,21 @@ const AppRoutes = [
   },
 ] as const satisfies RouteObject[];
 
+export const navigationRoutes = [
+  {
+    path: "/app",
+    title: "Overview",
+  },
+  {
+    path: "/app/about",
+    title: "About",
+  },
+  {
+    path: "/app/contact",
+    title: "Contact",
+  },
+] as const;
+
 export const { router, href } = typesafeBrowserRouter([
   {
     path: "/",
@@ -76,72 +92,3 @@ export const { router, href } = typesafeBrowserRouter([
     ],
   },
 ]);
-
-// export const { router, href } = typesafeBrowserRouter([
-//   {
-//     path: "/",
-//     children: [
-//       {
-//         index: true,
-//         element: <AppLoading />,
-//       },
-//       {
-//         path: "/app",
-//         element: <MainLayout />,
-//         children: [
-//           {
-//             index: true,
-//             async lazy() {
-//               const { Home } = await import("../pages");
-//               return { Component: Home };
-//             },
-//           },
-//           {
-//             path: "/app/about",
-//             async lazy() {
-//               const { About } = await import("../pages");
-//               return {
-//                 element: <ProtectedRoute children={<About />} />,
-//               };
-//             },
-//           },
-//           {
-//             path: "/app/contact",
-//             async lazy() {
-//               const { Contact } = await import("../pages");
-//               return {
-//                 element: <ProtectedRoute children={<Contact />} />,
-//               };
-//             },
-//           },
-//           {
-//             path: "/app/unauthorized",
-//             async lazy() {
-//               const { Unauthorized } = await import("../pages");
-//               return { Component: Unauthorized };
-//             },
-//           },
-//         ],
-//       },
-//       {
-//         path: "/auth",
-//         children: [
-//           {
-//             path: "/auth/login",
-//             async lazy() {
-//               const { Login } = await import("../pages");
-//               return { Component: Login };
-//             },
-//           },
-//           {
-//             path: "/auth/signup",
-//             async lazy() {
-//               const { Signup } = await import("../pages");
-//               return { Component: Signup };
-//             },
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ]);

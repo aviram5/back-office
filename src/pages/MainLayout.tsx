@@ -25,7 +25,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Logo from "../assets/logo.svg";
-import { href } from "../config/routes";
+import { href, navigationRoutes } from "../config/routes";
 
 const HEADER_HEIGHT = 75;
 const DRAWER_WIDTH = 240;
@@ -217,10 +217,14 @@ const MainLayout = () => {
         </DrawerHeader>
         {isDrawerOpen && <Divider />}
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <NavLink to={href({ path: "/" })}>
+          {navigationRoutes.map((route, index) => (
+            <NavLink to={href({ path: route.path })}>
               {/* <NavLink to={index % 2 === 0 ? "/" : "/contact"}> */}
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItem
+                key={route.path}
+                disablePadding
+                sx={{ display: "block" }}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -238,7 +242,7 @@ const MainLayout = () => {
                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                   </ListItemIcon>
                   <ListItemText
-                    primary={text}
+                    primary={route.title}
                     sx={{ opacity: isDrawerOpen ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -282,7 +286,7 @@ const MainLayout = () => {
           flexGrow: 1,
           // background: "green",
           p: 3,
-          //  border: 2,
+          // border: 2,
           // borderColor: "green"
         }}
       >
