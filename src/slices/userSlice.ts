@@ -42,7 +42,7 @@ export interface UserState {
 
 const initialState: UserState = {
   isLogged: true,
-  isAuth: false,
+  isAuth: true,
   // isLoading: false,
   error: undefined,
 };

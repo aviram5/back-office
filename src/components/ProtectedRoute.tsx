@@ -11,7 +11,7 @@ interface ProtectedRouteProps {}
 const ProtectedRoute = ({
   children,
 }: PropsWithChildren<ProtectedRouteProps>) => {
-  const isLogged = useAppSelector((state) => state.user.isLogged) && false;
+  const isLogged = useAppSelector((state) => state.user.isLogged);
   const isAuth = useAppSelector((state) => state.user.isAuth);
   const location = useLocation();
 
@@ -43,13 +43,17 @@ const ProtectedRoute = ({
       children || <Outlet />
     ) : (
       <Navigate
-        to={href({ path: "unauthorized" })}
+        to={href({ path: "/app/unauthorized" })}
         state={{ from: location }}
         replace
       />
     )
   ) : (
-    <Navigate to={href({ path: "login" })} state={{ from: location }} replace />
+    <Navigate
+      to={href({ path: "/auth/login" })}
+      state={{ from: location }}
+      replace
+    />
   );
 };
 

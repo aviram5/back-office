@@ -17,18 +17,12 @@ const AppLoading = () => {
   // }, [dispatch]);
 
   useEffect(() => {
-    if (!userState.isLogged) {
+    if (userState.isLogged) {
       console.log("app");
-      // navigate(href({ path: "home" }));
       navigate(href({ path: "/app" }));
-      // navigate(href({ path: "about" }));
-
-      // navigate("/app");
     } else {
       console.log("auth");
-      // redirect("/auth/login");
       navigate(href({ path: "/auth/login" }));
-      // navigate("/auth/login");
     }
   }, [userState, navigate]);
 
