@@ -2,20 +2,24 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import type { RouteObject } from "react-router-dom";
 import { typesafeBrowserRouter } from "react-router-typesafe";
 import AppLoading from "../pages/AppLoading";
-import { MainLayout } from "../pages";
+import MainLayout from "../layouts/MainLayout/MainLayout";
+
+import OverviewIcon from "@mui/icons-material/Apps";
+import AboutIcon from "@mui/icons-material/Info";
+import ContactIcon from "@mui/icons-material/PermContactCalendar";
 
 const AuthRoutes = [
   {
-    path: "/auth/login",
+    path: "login",
     async lazy() {
-      const { Login } = await import("../pages");
+      const { Login } = await import("../pages/Auth");
       return { Component: Login };
     },
   },
   {
-    path: "/auth/signup",
+    path: "signup",
     async lazy() {
-      const { Signup } = await import("../pages");
+      const { Signup } = await import("../pages/Auth");
       return { Component: Signup };
     },
   },
@@ -23,35 +27,35 @@ const AuthRoutes = [
 
 const AppRoutes = [
   {
-    // index: true,
-    path: "/app",
+    index: true,
+    // path: "/app",
     async lazy() {
-      const { Home } = await import("../pages");
+      const { Home } = await import("../pages/App");
       return { Component: Home };
     },
   },
   {
-    path: "/app/about",
+    path: "about",
     async lazy() {
-      const { About } = await import("../pages");
+      const { About } = await import("../pages/App");
       return {
         element: <ProtectedRoute children={<About />} />,
       };
     },
   },
   {
-    path: "/app/contact",
+    path: "contact",
     async lazy() {
-      const { Contact } = await import("../pages");
+      const { Contact } = await import("../pages/App");
       return {
         element: <ProtectedRoute children={<Contact />} />,
       };
     },
   },
   {
-    path: "/app/unauthorized",
+    path: "unauthorized",
     async lazy() {
-      const { Unauthorized } = await import("../pages");
+      const { Unauthorized } = await import("../pages/App");
       return { Component: Unauthorized };
     },
   },
@@ -61,14 +65,17 @@ export const navigationRoutes = [
   {
     path: "/app",
     title: "Overview",
+    icon: <OverviewIcon />,
   },
   {
     path: "/app/about",
     title: "About",
+    icon: <AboutIcon />,
   },
   {
     path: "/app/contact",
     title: "Contact",
+    icon: <ContactIcon />,
   },
 ] as const;
 
@@ -81,12 +88,12 @@ export const { router, href } = typesafeBrowserRouter([
         element: <AppLoading />,
       },
       {
-        path: "/app" as const,
+        path: "/app",
         element: <MainLayout />,
         children: AppRoutes,
       },
       {
-        path: "/auth" as const,
+        path: "/auth",
         children: AuthRoutes,
       },
     ],

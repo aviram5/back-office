@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
-import { fetchUser } from "../slices/userSlice";
+// import { fetchUser } from "../slices/userSlice";
 import { Box, Typography } from "@mui/material";
-// import { redirect } from "react-router-dom";
-import { redirect } from "react-router-typesafe";
 import { href } from "../config/routes";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AppLoading = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +27,6 @@ const AppLoading = () => {
   return (
     <Box sx={{ width: "100vw", height: "100vh", backgroundColor: "red" }}>
       <Typography>App Loading...</Typography>
-      {/* <Outlet /> */}
     </Box>
   );
 };

@@ -5,6 +5,7 @@ const Login = () => {
   return (
     <Box
       sx={{
+        backgroundColor: theme.palette.background.paper,
         width: "100%",
         height: "100%",
         display: "flex",

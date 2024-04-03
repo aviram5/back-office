@@ -44,6 +44,7 @@ const ProtectedRoute = ({
     ) : (
       <Navigate
         to={href({ path: "/app/unauthorized" })}
+        // to={href({ path: "/app/unauthorized" })}
         state={{ from: location }}
         replace
       />
