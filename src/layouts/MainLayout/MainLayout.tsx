@@ -25,7 +25,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Logo from "../../assets/logo.svg";
-import { href, navigationRoutes } from "../../config/routes";
+import { drawerRoutes } from "../../routes";
 
 const HEADER_HEIGHT = 75;
 const DRAWER_WIDTH = 240;
@@ -217,8 +217,8 @@ const MainLayout = () => {
         </DrawerHeader>
         {isDrawerOpen && <Divider />}
         <List>
-          {navigationRoutes.map((route) => (
-            <NavLink to={href({ path: route.path })}>
+          {drawerRoutes.map((route) => (
+            <NavLink to={route.path} unstable_viewTransition>
               {/* <NavLink to={index % 2 === 0 ? "/" : "/contact"}> */}
               <ListItem
                 key={route.path}

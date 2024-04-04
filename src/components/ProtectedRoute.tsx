@@ -2,7 +2,7 @@ import { Typography, Box } from "@mui/material";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../hooks/useRedux";
-import { href } from "../config/routes";
+import { href } from "../routes";
 
 // import type { To } from "react-router-dom";
 

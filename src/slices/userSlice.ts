@@ -38,6 +38,7 @@ export interface UserState {
   isAuth: boolean;
   // isLoading: boolean;
   error?: string;
+  count: number;
 }
 
 const initialState: UserState = {
@@ -45,12 +46,16 @@ const initialState: UserState = {
   isAuth: true,
   // isLoading: false,
   error: undefined,
+  count: 0,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setCount: (state, { payload }: PayloadAction<number>) => {
+      state.count += payload;
+    },
     setLogin: (state, { payload }: PayloadAction<boolean>) => {
       state.isLogged = payload;
     },
@@ -78,6 +83,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setLogin, setAuth } = userSlice.actions;
+export const { setLogin, setAuth, setCount } = userSlice.actions;
 
 export default userSlice;

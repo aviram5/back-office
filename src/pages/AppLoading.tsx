@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 // import { fetchUser } from "../slices/userSlice";
 import { Box, Typography } from "@mui/material";
-import { href } from "../config/routes";
+import { href } from "../routes";
 import { useNavigate } from "react-router-dom";
 
 const AppLoading = () => {
